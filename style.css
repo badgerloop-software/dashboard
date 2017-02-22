@@ -1,7 +1,19 @@
+
+.top {
+    position:absolute;
+    left:0; right:0;
+    height: 92px;
+}
 .sideNav {
+    position:absolute;
+    left:0; top:92px; bottom: 0;
     width: 96px;
     height: 600px;
     border: 1px solid green;
     padding: 1px;
     margin: 10px;
+}
+.main {
+    position: absolute;
+    left:178px; top:92px; right:0; bottom:0;
 }
