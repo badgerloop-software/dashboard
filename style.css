@@ -3,11 +3,14 @@
     position:absolute;
     left:0; right:0;
     height: 92px;
+    border: 1px solid green;
+    padding: 1px;
+    margin: 10px;
 }
 .sideNav {
     position:absolute;
     left:0; top:92px; bottom: 0;
-    width: 96px;
+    width: 92px;
     height: 600px;
     border: 1px solid green;
     padding: 1px;
