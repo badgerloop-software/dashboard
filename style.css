@@ -16,7 +16,37 @@
     padding: 1px;
     margin: 10px;
 }
+/* top left*/
 .main {
-    position: absolute;
-    left:178px; top:92px; right:0; bottom:0;
+	position: absolute;
+    left: 120px; top: 120px; right:0; bottom:0;
+    width: 300px;
+    height: 300px;
+    border: 1px solid green;
+}
+/* top right */
+.main2 {
+	position: absolute;
+    left: 425px; top: 120px; right:0; bottom:0;
+    width: 300px;
+    height: 300px;
+    border: 1px solid green;
+
+}
+/* bottom right */
+.main3 {
+	position: absolute;
+    left: 425px; top: 425px; right:0; bottom:0;
+    width: 300px;
+    height: 300px;
+    border: 1px solid green;
+
+}
+/* bottom left */
+.main4 {
+	position: absolute;
+    left: 120px; top: 425px; right:0; bottom:0;
+    width: 300px;
+    height: 300px;
+    border: 1px solid green;
 }
