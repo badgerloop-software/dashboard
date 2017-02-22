@@ -10,8 +10,8 @@
 .sideNav {
     position:absolute;
     left:0; top:92px; bottom: 0;
-    width: 92px;
-    height: 600px;
+    width: 94px;
+    height: 570px;
     border: 1px solid green;
     padding: 1px;
     margin: 10px;
@@ -20,33 +20,35 @@
 .main {
 	position: absolute;
     left: 120px; top: 120px; right:0; bottom:0;
-    width: 300px;
-    height: 300px;
+    width: 550px;
+    height: 275px;
     border: 1px solid green;
+    text-align:center;
 }
 /* top right */
 .main2 {
 	position: absolute;
-    left: 425px; top: 120px; right:0; bottom:0;
-    width: 300px;
-    height: 300px;
+    left: 675px; top: 120px; right:0; bottom:0;
+    width: 550px;
+    height: 275px;
     border: 1px solid green;
-
+    text-align:center;
 }
 /* bottom right */
 .main3 {
 	position: absolute;
-    left: 425px; top: 425px; right:0; bottom:0;
-    width: 300px;
-    height: 300px;
+    left: 675px; top: 400px; right:0; bottom:0;
+    width: 550px;
+    height: 275px;
     border: 1px solid green;
-
+    text-align:center;
 }
 /* bottom left */
 .main4 {
 	position: absolute;
-    left: 120px; top: 425px; right:0; bottom:0;
-    width: 300px;
-    height: 300px;
-    border: 1px solid green;
+    left: 120px; top: 400px; right:0; bottom:0;
+    width: 550px;
+    height: 275px;
+    border: 1px solid green;    
+    text-align:center;
 }
