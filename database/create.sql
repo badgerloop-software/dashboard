@@ -1,7 +1,10 @@
 # DDL for the dashboard database
 
+# Drop tables upon create in case they exist
+DROP TABLE IF EXISTS `Update`;
+DROP TABLE IF EXISTS `Data`;
+
 # Data table, holds all of the specified fields
-DROP TABLE IF EXISTS `Data`
 CREATE TABLE Data (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -19,7 +22,6 @@ CREATE TABLE Data (
 
 # Update table
 # Keeps track of all of the updates in sequence
-DROP TABLE IF EXISTS `Update`
 CREATE TABLE `Update` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
