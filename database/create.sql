@@ -19,6 +19,7 @@ CREATE TABLE Data (
 
 # Update table
 # Keeps track of all of the updates in sequence
+DROP TABLE IF EXISTS `Update`
 CREATE TABLE `Update` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
