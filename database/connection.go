@@ -2,7 +2,6 @@ package database
 
 import (
 	"log"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 )
@@ -11,9 +10,9 @@ var db *sqlx.DB
 
 // Inits the connection to the database
 // Should be called once from main routine
-func InitDB(dataSourceName string) {
+func InitDB(datasource string) {
 	var err error
-	db, err = sqlx.Open("mysql", dataSourceName)
+	db, err = sqlx.Open("mysql", datasource)
 	if err != nil {
 		log.Fatalln(err)
 	}
