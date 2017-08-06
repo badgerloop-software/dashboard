@@ -37,7 +37,7 @@ def main():
         if length == 34:
             results = parse_message(message)
             print results
-            sock.sendto(str(results), ("192.168.0.106", 3000))
+            sock.sendto(str(results), ("192.168.0.10", 3000))
         else:
             print "Incorrect message length: {}".format(length)
 
