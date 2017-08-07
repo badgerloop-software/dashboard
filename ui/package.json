@@ -1,0 +1,24 @@
+{
+  "name": "badgerloop-dashboard",
+  "version": "0.0.1",
+  "description": "Manage JavaScript dependencies",
+  "author": "Badgerloop Software Team <vkottler@wisc.edu>",
+  "license": "MIT",
+  "main": "server.js",
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/badgerloop-software/dashboard.git"
+  },
+  "dependencies": {
+    "express": "^4.x",
+    "body-parser": "^1.x",
+
+    "angular": "^1.6.5",
+    "angular-animate": "^1.6.5",
+    "angular-aria": "^1.6.5",
+    "angular-material": "1.1.4",
+    "angular-route": "^1.6.5"
+  }
+}
+
