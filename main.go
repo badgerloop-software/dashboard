@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net"
 	"fmt"
+	"strings"
 
 	"github.com/badgerloop-software/dashboard/database"
 	//api "github.com/badgerloop-software/dashboard/services"
@@ -47,6 +48,14 @@ func UDPServer() {
 
 	for {
 		n, addr, err = packet_conn.ReadFromUDP(buf[:])
+		/* Message, not a packet */
+		if n > 5 && buf[0] == 'M' && buf[1] == 'S' && buf[2] == 'G' {
+			/* respond to microcontroller querying for dashboard */
+			if strings.Contains(string(buf[0:n]), "dashboard?") {
+				_, err = packet_conn.WriteToUDP([]byte("new phone who dis"), outAddr)
+			}
+			fmt.Println(string(buf[5:n]))
+		}
 		/* SpaceX Packet */
 		if n == 34 {
 			dat, err = models.ParseSpaceXPacket(buf[:34])
