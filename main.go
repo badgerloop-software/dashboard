@@ -63,9 +63,6 @@ func UDPServer() {
 			fmt.Println("(Malformed packet, ", n, " bytes) ", buf[0:n], " from ", ourAddr)
 		}
 		CheckError(err)
-
-		n, err = conn.WriteToUDP([]byte("I got your packet (:"), outAddr)
-		CheckError(err)
 	}
 }
 /*****************************************************************************/
@@ -84,7 +81,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UDPForwardingHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Request: ", r.URL)
+	message := r.URL.Query()["data"]
+	w.Header().Set("Content-Type", "text/plain; charset=utf8")
+	/* valid API call */
+	if message != nil {
+		fmt.Println("valid: ", message[0])
+		w.WriteHeader(http.StatusOK)
+		_, err := conn.WriteToUDP([]byte(message[0]), outAddr)
+		CheckError(err)
+	/* invalid API call */
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
+	}
 }
 /*****************************************************************************/
 /*****************************************************************************/
