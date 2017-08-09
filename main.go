@@ -18,56 +18,49 @@ func CheckError(err error) {
 	}
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+/*****************************************************************************/
+/*                     Microcontroller-related Networking                    */
+/*****************************************************************************/
+var ourAddr, outAddr *net.UDPAddr
+var conn *net.UDPConn
 
+func initialize_UDP() {
 	var err error
-	testData := []models.Data{}
-
-	err = database.GetConnection().Select(&testData, "SELECT * FROM Data LIMIT 1")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	fmt.Fprintf(w, "(%s) %#v", r.URL.Path[1:], testData)
+	ourAddr, err = net.ResolveUDPAddr("udp", ":3000")
+	CheckError(err)
+	outAddr, err = net.ResolveUDPAddr("udp", "192.168.0.10:3000")
+	CheckError(err)
+	conn, err = net.ListenUDP("udp", ourAddr)
+	CheckError(err)
 }
 
 func UDPServer() {
 
+	var err error
+	var n int
 	dat := models.Data{}
-
-	addr, err := net.ResolveUDPAddr("udp", ":3000")
-	CheckError(err)
-
-	outAddr, err := net.ResolveUDPAddr("udp", "192.168.0.10:3000")
-	CheckError(err)
-
-	conn, err := net.ListenUDP("udp", addr)
-	CheckError(err)
-
-	defer conn.Close()
-
 	buf := make([]byte, 1024)
 
+	fmt.Println("Starting UDP Server")
+
 	for {
-		n, addr, err := conn.ReadFromUDP(buf[:])
+		n, ourAddr, err = conn.ReadFromUDP(buf[:])
 		/* SpaceX Packet */
 		if n == 34 {
 			dat, err = models.ParseSpaceXPacket(buf[:34])
 			if err == nil {
 				models.PrintSpaceX(dat)
 			}
-
 		/* Dashboard Packet */
 		} else if n == 47 {
 			dat, err = models.ParseDashboardPacket(buf[:47])
 			if err == nil {
 				models.PrintDashboard(dat)
+				// TODO: push to DB
 			}
-			// TODO: push to DB
-
 		/* Malformed Packet*/
 		} else {
-			fmt.Println("(Malformed packet, ", n, " bytes) ", buf[0:n], " from ", addr)
+			fmt.Println("(Malformed packet, ", n, " bytes) ", buf[0:n], " from ", ourAddr)
 		}
 		CheckError(err)
 
@@ -75,28 +68,50 @@ func UDPServer() {
 		CheckError(err)
 	}
 }
+/*****************************************************************************/
+/*****************************************************************************/
+
+
+/*****************************************************************************/
+/*                                HTTP Handlers                              */
+/*****************************************************************************/
+func handler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	testData := []models.Data{}
+	err = database.GetConnection().Select(&testData, "SELECT * FROM Data LIMIT 1")
+	CheckError(err)
+	fmt.Fprintf(w, "(%s) %#v", r.URL.Path[1:], testData)
+}
+
+func UDPForwardingHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request: ", r.URL)
+}
+/*****************************************************************************/
+/*****************************************************************************/
+
+func db_test() {
+	var err error
+	testData := []models.Data{}
+	err = database.GetConnection().Select(&testData, "SELECT * FROM Data")
+	CheckError(err)
+	fmt.Printf("query returned %d results.\n", len(testData))
+}
 
 func main() {
 
-	var err error
-
-	// Setup database connection
+	/* Setup database connection */
 	database.InitDB("dashboard:betsy@tcp(badgerloop.com:3306)/Dashboard")
+	db_test()
 
-	testData := []models.Data{}
+	initialize_UDP()
+	defer conn.Close()
 
-	err = database.GetConnection().Select(&testData, "SELECT * FROM Data")
-	CheckError(err)
+	/* Listen for microcontroller */
+	go UDPServer()
 
-	fmt.Printf("query returned %d results.\n", len(testData))
-	//fmt.Printf("Example: %#v\n", testData[0])
-
-	// Add the api data service
-	//restful.Add(api.New())
-
-	// Serve on port 2000
-	//http.HandleFunc("/", handler)
-	//log.Fatal(http.ListenAndServe(":2000", nil))
-
-	UDPServer()
+	/* Serve on port 2000 */
+	http.HandleFunc("/", handler)
+	http.HandleFunc("/message", UDPForwardingHandler)
+	log.Fatal(http.ListenAndServe(":2000", nil))
 }
+
