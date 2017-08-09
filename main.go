@@ -21,16 +21,17 @@ func CheckError(err error) {
 /*****************************************************************************/
 /*                     Microcontroller-related Networking                    */
 /*****************************************************************************/
-var ourAddr, outAddr *net.UDPAddr
-var conn *net.UDPConn
+var outAddr *net.UDPAddr
+var packet_conn *net.UDPConn
 
 func initialize_UDP() {
+	var ourAddrP *net.UDPAddr
 	var err error
-	ourAddr, err = net.ResolveUDPAddr("udp", ":3000")
+	ourAddrP, err = net.ResolveUDPAddr("udp", ":3000")
 	CheckError(err)
 	outAddr, err = net.ResolveUDPAddr("udp", "192.168.0.10:3000")
 	CheckError(err)
-	conn, err = net.ListenUDP("udp", ourAddr)
+	packet_conn, err = net.ListenUDP("udp", ourAddrP)
 	CheckError(err)
 }
 
@@ -40,11 +41,12 @@ func UDPServer() {
 	var n int
 	dat := models.Data{}
 	buf := make([]byte, 1024)
+	var addr *net.UDPAddr
 
 	fmt.Println("Starting UDP Server")
 
 	for {
-		n, ourAddr, err = conn.ReadFromUDP(buf[:])
+		n, addr, err = packet_conn.ReadFromUDP(buf[:])
 		/* SpaceX Packet */
 		if n == 34 {
 			dat, err = models.ParseSpaceXPacket(buf[:34])
@@ -60,7 +62,7 @@ func UDPServer() {
 			}
 		/* Malformed Packet*/
 		} else {
-			fmt.Println("(Malformed packet, ", n, " bytes) ", buf[0:n], " from ", ourAddr)
+			fmt.Println("(Malformed packet, ", n, " bytes) ", buf[0:n], " from ", addr)
 		}
 		CheckError(err)
 	}
@@ -87,7 +89,7 @@ func UDPForwardingHandler(w http.ResponseWriter, r *http.Request) {
 	if message != nil {
 		fmt.Println("valid: ", message[0])
 		w.WriteHeader(http.StatusOK)
-		_, err := conn.WriteToUDP([]byte(message[0]), outAddr)
+		_, err := packet_conn.WriteToUDP([]byte(message[0]), outAddr)
 		CheckError(err)
 	/* invalid API call */
 	} else {
@@ -112,7 +114,7 @@ func main() {
 	db_test()
 
 	initialize_UDP()
-	defer conn.Close()
+	defer packet_conn.Close()
 
 	/* Listen for microcontroller */
 	go UDPServer()
