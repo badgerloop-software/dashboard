@@ -67,7 +67,7 @@ func UDPServer() {
 			dat, err = models.ParseDashboardPacket(buf[:47])
 			if err == nil {
 				models.PrintDashboard(dat)
-				// TODO: push to DB
+				//err2=database.GetConnection().MustBegin().MustExec(&dat,"INSERT INTO Dashboard.Data VALUES ")
 			}
 		/* Malformed Packet*/
 		} else {
