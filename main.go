@@ -68,6 +68,19 @@ func UDPServer() {
 			if err == nil {
 				models.PrintDashboard(dat)
 				// TODO: push to DB
+
+			tx := db.MustBegin()
+			tx.NamedExec("INSERT INTO Data (status, acceleration,
+				position, velocity, battery_voltage, battery_current,
+				battery_temperature, pod_temperature, stripe_count, pod_pressure,
+				 switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3)
+
+				VALUES (:id, :team_id, :status, :acceleration, :position,:velocity,
+					:battery_voltage, :battery_current, :battery_temperature,
+					:pod_temperature, :stripe_count, :pod_pressure, :switch_states,
+					:pr_p1,:pr_p2, :br_p1, :br_p2,:br_p3,:br_p4)", &dat)
+				tx.Commit()
+
 			}
 		/* Malformed Packet*/
 		} else {
@@ -128,7 +141,7 @@ func db_test() {
 func main() {
 
 	/* Setup database connection */
-	database.InitDB("dashboard:betsy@tcp(badgerloop.com:3306)/Dashboard")
+	db := database.InitDB("dashboard:betsy@tcp(badgerloop.com:3306)/Dashboard")
 	db_test()
 
 	initialize_UDP()
@@ -142,4 +155,3 @@ func main() {
 	http.HandleFunc("/message", UDPForwardingHandler)
 	log.Fatal(http.ListenAndServe(":2000", nil))
 }
-
