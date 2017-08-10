@@ -13,12 +13,14 @@ func New() *restful.WebService {
 		Consumes(restful.MIME_JSON).
 		Produces(restful.MIME_JSON)
 
-	service.Route(service.GET("/lastupdate").To(lastUpdate))
 
 	return service
 }
 
+/*
 func lastUpdate(request *restful.Request, response *restful.Response) {
 	// TODO Fill in dummy function
-	response.WriteEntity("Dummy Value")
+	theJSON = (*restful.Response).WriteAsJson(*restful.Request)
+	response.WriteEntity(theJSON)
 }
+*/
