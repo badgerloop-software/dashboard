@@ -31,8 +31,7 @@ CREATE TABLE `Data` (
 	`pr_p2` INTEGER(5),					# UINT16 - PSI, TODO: which is this?
 	`br_p1` INTEGER(3),					# UINT16 - PSI, TODO: which is this?
 	`br_p2` INTEGER(3),					# UINT16 - PSI, TODO: which is this?
-	`br_p3` INTEGER(3),					# UINT16 - PSI, TODO: which is this?
-	`br_p4` INTEGER(3)					# UINT16 - PSI, TODO: which is this?
+	`br_p3` INTEGER(3)					# UINT16 - PSI, TODO: which is this?
 );
 
 # Update table

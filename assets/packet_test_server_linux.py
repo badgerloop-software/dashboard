@@ -13,7 +13,7 @@ import struct
 
 def parse_message(msg):
     params = {}
-    pattern = '!BBi7I'
+    pattern = '!BBiiiiiiiI'
     (params['team_id'],
      params['status'],
      params['accel'],
@@ -37,6 +37,7 @@ def main():
         if length == 34:
             results = parse_message(message)
             print results
+            sock.sendto(str(results), ("192.168.0.10", 3000))
         else:
             print "Incorrect message length: {}".format(length)
 
