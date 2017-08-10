@@ -52,12 +52,12 @@ func UDPServer() {
 		if n > 5 && buf[0] == 'M' && buf[1] == 'S' && buf[2] == 'G' {
 			/* respond to microcontroller querying for dashboard */
 			if strings.Contains(string(buf[0:n]), "dashboard?") {
+				fmt.Println("got query packet")
 				_, err = packet_conn.WriteToUDP([]byte("new phone who dis"), outAddr)
 			}
-			fmt.Println(string(buf[5:n]))
-		}
+			fmt.Print(string(buf[5:n]))
 		/* SpaceX Packet */
-		if n == 34 {
+		} else if n == 34 {
 			dat, err = models.ParseSpaceXPacket(buf[:34])
 			if err == nil {
 				models.PrintSpaceX(dat)
@@ -96,7 +96,7 @@ func UDPForwardingHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf8")
 	/* valid API call */
 	if message != nil {
-		fmt.Println("valid: ", message[0])
+		//fmt.Println("valid: ", message[0])
 		w.WriteHeader(http.StatusOK)
 		_, err := packet_conn.WriteToUDP([]byte(message[0]), outAddr)
 		CheckError(err)
