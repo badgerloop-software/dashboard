@@ -1,6 +1,5 @@
 function messageSuccessCallback(response) {
 	console.log("success");
-	console.log(response);
 }
 
 function messageErrorCallback(response) {
@@ -11,8 +10,10 @@ function messageErrorCallback(response) {
 angular.module('controllers')
 .controller('homeController', function($scope, $http) {
 
+	$scope.command = "help";
+	$scope.output = "No output!";
+
 	$scope.sendCommand = function() {
-		console.log("Sending: " + $scope.command);
 		$http({
 			method: 'GET',
 			url: 'http://localhost:2000/message?data=' + $scope.command
@@ -25,17 +26,17 @@ angular.module('controllers')
 		$http({
 			method: 'GET',
 			url: 'http://localhost:2000/buffer'
-		}).then(messageSuccessCallback, messageErrorCallback);
-
+		}).then(function(response) {
+			$scope.output = response.data;
+		}, messageErrorCallback);
 	};
 
 	$scope.resetData = function() {
-		console.log("resetting data");
 		$http({
 			method: 'GET',
 			url: 'http://localhost:2000/buffer?reset'
 		}).then(messageSuccessCallback, messageErrorCallback);
-
 	};
+
 });
 
