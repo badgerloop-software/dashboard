@@ -11,14 +11,21 @@ angular.module('controllers')
 .controller('homeController', function($scope, $http) {
 
 	$scope.command = "help";
-	$scope.output = "No output!";
 
 	$scope.sendCommand = function() {
 		$http({
 			method: 'GET',
-			url: 'http://localhost:2000/message?data=' + $scope.command
-		}).then(messageSuccessCallback, messageErrorCallback);
-		$scope.command = "";
+			url: 'http://localhost:2000/message?data='
+				+ encodeURIComponent($scope.command)
+		}).then(function(response) {
+			console.log("success");
+			timeout = 250;
+			/* reset takes a bit longer */
+			if ($scope.command.indexOf("reset") !== -1)
+				timeout = 6000;
+			setTimeout($scope.getData, timeout);
+			$scope.command = "";
+		}, messageErrorCallback);
 	};
 
 	$scope.getData = function() {
@@ -27,7 +34,7 @@ angular.module('controllers')
 			method: 'GET',
 			url: 'http://localhost:2000/buffer'
 		}).then(function(response) {
-			$scope.output = response.data;
+			$scope.output = response.data.replace(/(?:\r\n|\r|\n)/g, '<br />');
 		}, messageErrorCallback);
 	};
 
@@ -36,7 +43,10 @@ angular.module('controllers')
 			method: 'GET',
 			url: 'http://localhost:2000/buffer?reset'
 		}).then(messageSuccessCallback, messageErrorCallback);
+		$scope.output = "";
 	};
+
+	$scope.getData();
 
 });
 

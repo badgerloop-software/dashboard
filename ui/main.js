@@ -1,7 +1,7 @@
 angular.module('controllers', []);
 angular.module('directives', []);
 
-var dependencyList = ['ngMaterial', 'ngRoute', 'controllers', 'directives'];
+var dependencyList = ['ngMaterial', 'ngRoute', 'ngSanitize', 'controllers', 'directives'];
 
 var themeColors = {
     primary: 'red', accent: 'deep-orange',

@@ -54,15 +54,16 @@ func UDPServer() {
 
 	for {
 		n, addr, err = packet_conn.ReadFromUDP(buf[:])
+
 		/* Message, not a packet */
 		if n > 5 && buf[0] == 'M' && buf[1] == 'S' && buf[2] == 'G' {
 			/* respond to microcontroller querying for dashboard */
 			if strings.Contains(string(buf[0:n]), "dashboard?") {
-				fmt.Println("got query packet")
 				_, err = packet_conn.WriteToUDP([]byte("new phone who dis"), outAddr)
+			} else {
+				fmt.Print(string(buf[5:n]))
+				mcuBuffer.Write(buf[5:n])
 			}
-			fmt.Print(string(buf[5:n]))
-			mcuBuffer.Write(buf[:])
 		/* SpaceX Packet */
 		} else if n == 34 {
 			dat, err = models.ParseSpaceXPacket(buf[:34])
@@ -78,7 +79,7 @@ func UDPServer() {
 			}
 		/* Malformed Packet*/
 		} else {
-			fmt.Println("(Malformed packet, ", n, " bytes) ", buf[0:n], " from ", addr)
+			fmt.Println("(Malformed packet, ", n, " bytes) ", string(buf[0:n]), " from ", addr)
 		}
 		CheckError(err)
 	}
