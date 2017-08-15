@@ -1,11 +1,28 @@
-<md-content>
-	<md-input-container>
-		<label>Command Text</label>
-		<input ng-model="command">
-	</md-input-container>
-	<md-button class="md-raised" ng-click="sendCommand()">Send</md-button>
-</md-content>
-<md-button class="md-raised" ng-click="resetData()">Reset Data</md-button>
-<h2></h2>
-<p ng-bind-html="output"></p>
+<div flex="grow" layout="row">
+
+	<!-- Console -->
+	<div flex="50" id="console-container">
+		<p id="console" ng-bind-html="output"></p>
+		<md-content>
+			<form ng-keyup="$event.keyCode == 13 && sendCommand()">
+				<md-input-container>
+					<label>Command Text</label>
+					<input ng-model="command">
+				</md-input-container>
+				<md-button class="md-raised" ng-click="sendCommand()">Send</md-button>
+			</form>
+		</md-content>
+		<md-button class="md-raised" ng-click="resetData()">Clear</md-button>
+		<md-button class="md-raised" ng-click="getData()">Refresh</md-button>
+	</div>
+
+	<!-- Data Visualization -->
+	<div flex="50" id="telemetry-container">
+		<h1>Microcontroller Data</h1>
+		<!-- TODO: ng-repeat, call data API  -->
+		{{sampleData1}}<br>
+		{{sampleData2}}<br>
+	</div>
+
+</div>
 

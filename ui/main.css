@@ -1,0 +1,34 @@
+hr {
+	margin: 0em;
+	border-style: solid;
+	border-width: 0.5em;
+}
+
+html {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#ng-view-container {
+	position: relative;
+}
+
+#ng-view-parent {
+	overflow-x: hidden;
+	overflow-y: auto;
+    height: 100vh;
+}
+
+#console-container {
+	padding: 1em;
+}
+
+#console {
+	color: green;
+	background-color: rgba(0, 0, 0, 0.8);
+	padding: 1em;
+}
+
+#telemetry-container {
+	padding: 1em;
+}
+

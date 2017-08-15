@@ -12,6 +12,14 @@ angular.module('controllers')
 
 	$scope.command = "help";
 
+	$scope.output = "Test content<br>Test content<br>Test content";
+
+	$scope.sampleData1 = 5;
+	$scope.sampleData2 = 6;
+
+	/*************************************************************************/
+	/*                        Message Send API Call                          */
+	/*************************************************************************/
 	$scope.sendCommand = function() {
 		$http({
 			method: 'GET',
@@ -27,24 +35,32 @@ angular.module('controllers')
 			$scope.command = "";
 		}, messageErrorCallback);
 	};
+	/*************************************************************************/
 
+
+	/*************************************************************************/
+	/*                      Buffer Retrieve API Call                         */
+	/*************************************************************************/
 	$scope.getData = function() {
 		console.log("getting data");
-		$http({
-			method: 'GET',
-			url: 'http://localhost:2000/buffer'
-		}).then(function(response) {
+		$http({ method: 'GET', url: 'http://localhost:2000/buffer' })
+		.then(function(response) {
 			$scope.output = response.data.replace(/(?:\r\n|\r|\n)/g, '<br />');
 		}, messageErrorCallback);
 	};
+	/*************************************************************************/
 
+
+	/*************************************************************************/
+	/*                        Buffer Reset API Call                          */
+	/*************************************************************************/
 	$scope.resetData = function() {
-		$http({
-			method: 'GET',
-			url: 'http://localhost:2000/buffer?reset'
-		}).then(messageSuccessCallback, messageErrorCallback);
+		$http({ method: 'GET', url: 'http://localhost:2000/buffer?reset' })
+		.then(messageSuccessCallback, messageErrorCallback);
 		$scope.output = "";
 	};
+	/*************************************************************************/
+
 
 	$scope.getData();
 

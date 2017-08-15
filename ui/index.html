@@ -18,8 +18,15 @@
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="main.css" />
 	</head>
+
 	<body ng-app="badgerloop-dashboard">
-		<div ng-view>
+		<!-- potential header -->
+		<div flex="grow" layout="column" id="ng-view-parent">
+			<hr md-colors="{borderColor: 'primary-900', backgroundColor: 'primary-900'}">
+			<div flex="grow" id="ng-view-container" ng-view></div>
+			<hr md-colors="{borderColor: 'primary-900', backgroundColor: 'primary-900'}">
+		</div>
+		<!-- potential footer -->
 	</body>
 
 	<!-- Javascript Dependencies -->
