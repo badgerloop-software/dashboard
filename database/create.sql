@@ -18,20 +18,20 @@ CREATE TABLE `Data` (
 	`velocity` INTEGER(10) NOT NULL,		# INT32 - Velocity in cm/s
 
 	# Optional SpaceX arguments
-	`battery_voltage` INTEGER(10),		# INT32 - Battery voltage in mV
-	`battery_current` INTEGER(10),		# INT32 - Battery current in mA
-	`battery_temperature` INTEGER(10),	# INT32 - Battery temp. in tenths deg. C
-	`pod_temperature` INTEGER(10),		# INT32 - Pod temp. in tenths deg. C
-	`stripe_count` INTEGER(10),			# UINT32 - Count of optical navigation stripes
+	`battery_voltage` INTEGER(10) NOT NULL,		# INT32 - Battery voltage in mV
+	`battery_current` INTEGER(10) NOT NULL,		# INT32 - Battery current in mA
+	`battery_temperature` INTEGER(10) NOT NULL,	# INT32 - Battery temp. in tenths deg. C
+	`pod_temperature` INTEGER(10) NOT NULL,		# INT32 - Pod temp. in tenths deg. C
+	`stripe_count` INTEGER(10) NOT NULL,		# UINT32 - Count of optical navigation stripes
 
 	# Additional fields for dashboard
-	`pod_pressure` INTEGER(5),			# UINT16 - pascals?
-	`switch_states` INTEGER(5),			# UINT16 - bit fields, see badgerloop.h
-	`pr_p1` INTEGER(5),					# UINT16 - PSI, TODO: which is this?
-	`pr_p2` INTEGER(5),					# UINT16 - PSI, TODO: which is this?
-	`br_p1` INTEGER(3),					# UINT16 - PSI, TODO: which is this?
-	`br_p2` INTEGER(3),					# UINT16 - PSI, TODO: which is this?
-	`br_p3` INTEGER(3)					# UINT16 - PSI, TODO: which is this?
+	`pod_pressure` INTEGER(5) NOT NULL,			# UINT16 - pascals?
+	`switch_states` INTEGER(5) NOT NULL,		# UINT16 - bit fields, see badgerloop.h
+	`pr_p1` INTEGER(5) NOT NULL,				# UINT16 - PSI, TODO: which is this?
+	`pr_p2` INTEGER(5) NOT NULL,				# UINT16 - PSI, TODO: which is this?
+	`br_p1` INTEGER(3) NOT NULL,				# UINT16 - PSI, TODO: which is this?
+	`br_p2` INTEGER(3) NOT NULL,				# UINT16 - PSI, TODO: which is this?
+	`br_p3` INTEGER(3) NOT NULL					# UINT16 - PSI, TODO: which is this?
 );
 
 # Update table
