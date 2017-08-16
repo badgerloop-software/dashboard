@@ -1,3 +1,5 @@
+var dashboard_ip = "192.168.0.100";
+
 function messageSuccessCallback(response) {
 	console.log("success");
 }
@@ -23,7 +25,7 @@ angular.module('controllers')
 	$scope.sendCommand = function() {
 		$http({
 			method: 'GET',
-			url: 'http://localhost:2000/message?data='
+			url: 'http://' + dashboard_ip + ':2000/message?data='
 				+ encodeURIComponent($scope.command)
 		}).then(function(response) {
 			console.log("success");
@@ -43,7 +45,7 @@ angular.module('controllers')
 	/*************************************************************************/
 	$scope.getData = function() {
 		console.log("getting data");
-		$http({ method: 'GET', url: 'http://localhost:2000/buffer' })
+		$http({ method: 'GET', url: 'http://' + dashboard_ip + ':2000/buffer' })
 		.then(function(response) {
 			$scope.output = response.data.replace(/(?:\r\n|\r|\n)/g, '<br />');
 		}, messageErrorCallback);
@@ -55,9 +57,21 @@ angular.module('controllers')
 	/*                        Buffer Reset API Call                          */
 	/*************************************************************************/
 	$scope.resetData = function() {
-		$http({ method: 'GET', url: 'http://localhost:2000/buffer?reset' })
+		$http({ method: 'GET', url: 'http://' + dashboard_ip + ':2000/buffer?reset' })
 		.then(messageSuccessCallback, messageErrorCallback);
 		$scope.output = "";
+	};
+	/*************************************************************************/
+
+
+	/*************************************************************************/
+	/*                        Data Retrieve API Call                         */
+	/*************************************************************************/
+	$scope.queryDB = function() {
+		$http({ method: 'GET', url: 'http://' + dashboard_ip + ':2000' })
+		.then(function(response) {
+			console.log(response.data);
+		}, messageErrorCallback);
 	};
 	/*************************************************************************/
 
