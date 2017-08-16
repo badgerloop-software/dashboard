@@ -103,7 +103,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	testData := []models.Data{}
 
 	// TODO: how many data points do we want?
-	err = database.GetConnection().Select(&testData, "SELECT * FROM Dashboard.Data ORDER BY created DESC LIMIT 1;")
+	err = database.GetConnection().Select(&testData, "SELECT * FROM Dashboard.Data ORDER BY created DESC LIMIT 10;")
 	CheckError(err)
 	myTestData, err := json.Marshal(testData)
 	CheckError(err)
