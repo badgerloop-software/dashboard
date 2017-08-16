@@ -2,7 +2,8 @@
 
 	<!-- Console -->
 	<div flex="50" id="console-container">
-		<p id="console" ng-bind-html="output"></p>
+		<h1>STM32 Nucleo 144 Serial Console</h1>
+		<p id="console" ng-bind-html="output" md-whiteframe="9"></p>
 		<md-content>
 			<form ng-keyup="$event.keyCode == 13 && sendCommand()">
 				<md-input-container>
@@ -10,18 +11,27 @@
 					<input ng-model="command">
 				</md-input-container>
 				<md-button class="md-raised" ng-click="sendCommand()">Send</md-button>
+				<md-button class="md-raised" ng-click="resetData()">Clear</md-button>
+				<md-button class="md-raised" ng-click="getData()">Refresh</md-button>
 			</form>
 		</md-content>
-		<md-button class="md-raised" ng-click="resetData()">Clear</md-button>
-		<md-button class="md-raised" ng-click="getData()">Refresh</md-button>
 	</div>
 
 	<!-- Data Visualization -->
-	<div flex="50" id="telemetry-container">
+	<div flex="50" id="telemetry-container" layout="column">
 		<h1>Microcontroller Data</h1>
-		<!-- TODO: ng-repeat, call data API  -->
-		{{sampleData1}}<br>
-		{{sampleData2}}<br>
+		<div layout="row">
+			<div flex="50">
+				<div ng-repeat="field in fields">
+					<span class="{{field.name}}">{{field.name}}:</span>
+				</div>
+			</div>
+			<div flex="50">
+				<div ng-repeat="field in fields">
+					<span class="{{field.name}}">{{data[field.name]}} {{field.unit}}</span>
+				</div>
+			</div>
+		</div>
 		<md-button class="md-raised" ng-click="queryDB()">Get Data</md-button>
 	</div>
 
