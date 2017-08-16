@@ -75,7 +75,7 @@ func UDPServer() {
 			dat, err = models.ParseDashboardPacket(buf[:47])
 			if err == nil {
 				models.PrintDashboard(dat)
-				// TODO: push to DB
+				sendToDB(&dat)
 			}
 		/* Malformed Packet*/
 		} else {
@@ -164,6 +164,16 @@ func db_test() {
 	err = database.GetConnection().Select(&testData, "SELECT * FROM Data")
 	CheckError(err)
 	fmt.Printf("query returned %d results.\n", len(testData))
+	dat := models.Data{} /* wondering if this initializes it to all 0s */
+	sendToDB(&dat)
+}
+
+func sendToDB(d *models.Data) {
+	tx := database.GetConnection().MustBegin()
+	result, err := tx.NamedExec("INSERT INTO Data (team_id, status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3) VALUES (:team_id, :status, :acceleration, :position, :velocity, :battery_voltage, :battery_current, :battery_temperature, :pod_temperature, :stripe_count, :pod_pressure, :switch_states, :pr_p1, :pr_p2, :br_p1, :br_p2, :br_p3)", d)
+	CheckError(err)
+	fmt.Println("Result: ", result)
+	tx.Commit() /* TODO: see what this returns */
 }
 
 func main() {
