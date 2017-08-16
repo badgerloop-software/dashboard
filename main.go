@@ -1,15 +1,13 @@
 package main
 
 import (
-	"bytes"
-	"database/sql"
-	"encoding/json"
-	"fmt"
 	"log"
-	"net"
 	"net/http"
+	"net"
+	"fmt"
+	"encoding/json"
 	"strings"
-
+	"bytes"
 	"github.com/badgerloop-software/dashboard/database"
 	//api "github.com/badgerloop-software/dashboard/services"
 	models "github.com/badgerloop-software/dashboard/models"
@@ -66,29 +64,29 @@ func UDPServer() {
 				fmt.Print(string(buf[5:n]))
 				mcuBuffer.Write(buf[5:n])
 			}
-			/* SpaceX Packet */
+		/* SpaceX Packet */
 		} else if n == 34 {
 			dat, err = models.ParseSpaceXPacket(buf[:34])
 			if err == nil {
 				models.PrintSpaceX(dat)
 			}
-			/* Dashboard Packet */
+		/* Dashboard Packet */
 		} else if n == 47 {
 			dat, err = models.ParseDashboardPacket(buf[:47])
 			if err == nil {
 				models.PrintDashboard(dat)
 				// TODO: push to DB
 			}
-			/* Malformed Packet*/
+		/* Malformed Packet*/
 		} else {
 			fmt.Println("(Malformed packet, ", n, " bytes) ", string(buf[0:n]), " from ", addr)
 		}
 		CheckError(err)
 	}
 }
+/*****************************************************************************/
+/*****************************************************************************/
 
-/*****************************************************************************/
-/*****************************************************************************/
 
 /*****************************************************************************/
 /*                                HTTP Handlers                              */
@@ -110,7 +108,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	myTestData, err := json.Marshal(testData)
 	CheckError(err)
 	// why would we need to Marshal and then Unmarshal?
-	err = json.Unmarshal(myTestData, &testData)
+	err = json.Unmarshal(myTestData,&testData)
 	CheckError(err)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -134,7 +132,7 @@ func UDPForwardingHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, err := packet_conn.WriteToUDP([]byte(message[0]), outAddr)
 		CheckError(err)
-		/* invalid API call */
+	/* invalid API call */
 	} else {
 		w.WriteHeader(http.StatusBadRequest)
 	}
@@ -152,12 +150,11 @@ func bufferRequestHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Query()["reset"] != nil {
 		mcuBuffer.Reset()
 		w.WriteHeader(http.StatusOK)
-		/* send buffer contents */
+	/* send buffer contents */
 	} else {
 		w.Write(mcuBuffer.Bytes())
 	}
 }
-
 /*****************************************************************************/
 /*****************************************************************************/
 
@@ -175,25 +172,6 @@ func main() {
 	database.InitDB("dashboard:betsy@tcp(badgerloop.com:3306)/Dashboard")
 	db_test()
 
-	db, err := sql.Open("mysql", "dashboard:betsy@tcp(badgerloop.com:3306)/Dashboard")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	defer db.Close()
-
-	stmtIns, err := db.Prepare("INSERT INTO Data VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	defer stmtIns.Close()
-
-	_, err = stmtIns.Exec(101, "yoyo", 14, 67, 10745, 9592, 295, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true}, sql.NullInt64{Int64: 42, Valid: true})
-	if err != nil {
-		panic(err.Error())
-	}
-
 	initialize_UDP()
 	defer packet_conn.Close()
 
@@ -206,3 +184,4 @@ func main() {
 	http.HandleFunc("/buffer", bufferRequestHandler)
 	log.Fatal(http.ListenAndServe(":2000", nil))
 }
+
