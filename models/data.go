@@ -184,27 +184,28 @@ func ParseDashboardPacket(buf []byte) (Data, error) {
 	ret.PodPressure |= uint16(buf[34]) << 8
 	ret.PodPressure |= uint16(buf[35])
 
-	ret.SwitchStates = buf[36]
 
 	ret.PrP1 = 0 /* uint16 */
-	ret.PrP1 |= uint16(buf[37]) << 8
-	ret.PrP1 |= uint16(buf[38])
+	ret.PrP1 |= uint16(buf[36]) << 8
+	ret.PrP1 |= uint16(buf[37])
 
 	ret.PrP2 = 0 /* uint16 */
-	ret.PrP2 |= uint16(buf[39]) << 8
-	ret.PrP2 |= uint16(buf[40])
+	ret.PrP2 |= uint16(buf[38]) << 8
+	ret.PrP2 |= uint16(buf[39])
 
 	ret.BrP1 = 0 /* uint16 */
-	ret.BrP1 |= uint16(buf[41]) << 8
-	ret.BrP1 |= uint16(buf[42])
+	ret.BrP1 |= uint16(buf[40]) << 8
+	ret.BrP1 |= uint16(buf[41])
 
 	ret.BrP2 = 0 /* uint16 */
-	ret.BrP2 |= uint16(buf[43]) << 8
-	ret.BrP2 |= uint16(buf[44])
+	ret.BrP2 |= uint16(buf[42]) << 8
+	ret.BrP2 |= uint16(buf[43])
 
 	ret.BrP3 = 0 /* uint16 */
-	ret.BrP3 |= uint16(buf[45]) << 8
-	ret.BrP3 |= uint16(buf[46])
+	ret.BrP3 |= uint16(buf[44]) << 8
+	ret.BrP3 |= uint16(buf[45])
+
+	ret.SwitchStates = buf[46]
 
 	return ret, nil
 }
