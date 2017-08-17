@@ -21,7 +21,7 @@ var math_fields = [
 	"BrP1", "BrP2", "BrP3", "PrP1", "PrP2",
 	"PodPressure", "PodTemperature"
 ];
-var dashboard_ip = "192.168.0.100";
+var dashboard_ip = "192.168.0.104";
 
 function messageSuccessCallback(response) {
 	console.log("success");
