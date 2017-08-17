@@ -132,7 +132,7 @@ func UDPForwardingHandler(w http.ResponseWriter, r *http.Request) {
 	if message != nil {
 		fmt.Println("valid: ", message[0])
 		w.WriteHeader(http.StatusOK)
-		_, err := packet_conn.WriteToUDP([]byte(message[0]), outAddr)
+		_, err := packet_conn.WriteToUDP(append([]byte(message[0]), 0), outAddr)
 		CheckError(err)
 	/* invalid API call */
 	} else {
