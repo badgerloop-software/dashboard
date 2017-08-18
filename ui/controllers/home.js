@@ -65,11 +65,6 @@ angular.module('controllers')
 				+ encodeURIComponent($scope.command)
 		}).then(function(response) {
 			console.log("success");
-			timeout = 250;
-			/* reset takes a bit longer */
-			if ($scope.command.indexOf("reset") !== -1)
-				timeout = 6000;
-			setTimeout($scope.getData, timeout);
 			$scope.command = "";
 		}, messageErrorCallback);
 	};
@@ -80,10 +75,12 @@ angular.module('controllers')
 	/*                      Buffer Retrieve API Call                         */
 	/*************************************************************************/
 	$scope.getData = function() {
+		var consoleElem = document.getElementById('console');
 		console.log("getting data");
 		$http({ method: 'GET', url: 'http://' + dashboard_ip + ':2000/buffer' })
 		.then(function(response) {
 			$scope.output = response.data.replace(/(?:\r\n|\r|\n)/g, '<br />');
+			consoleElem.scrollTop = consoleElem.scrollHeight;
 		}, messageErrorCallback);
 	};
 	/*************************************************************************/
@@ -146,8 +143,8 @@ angular.module('controllers')
 	};
 	/*************************************************************************/
 
-
-	$scope.getData();
+	setInterval($scope.getData, 1000);
+	setInterval($scope.queryDB, 2000);
 
 });
 

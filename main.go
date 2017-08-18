@@ -178,7 +178,8 @@ func sendToDB(d *models.Data) {
 func main() {
 
 	/* Setup database connection */
-	database.InitDB("dashboard:betsy@tcp(badgerloop.com:3306)/Dashboard")
+	//database.InitDB("dashboard:betsy@tcp(badgerloop.com:3306)/Dashboard")
+	database.InitDB("dashboard:betsy@tcp(localhost:3306)/Dashboard")
 	db_test()
 
 	initialize_UDP()
