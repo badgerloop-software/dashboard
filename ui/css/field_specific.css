@@ -1,0 +1,77 @@
+.Status { 
+	color: green;
+}
+
+.Stopd { 
+	color: green;
+}
+
+.StripeCount { 
+	color: black;
+}
+
+.Position { 
+	color: black;
+	border-style: solid;
+	border-width: 0em 0em 0.25em 0em;
+	border-color: black;
+}
+
+.Acceleration {
+	color: green;
+}
+
+
+.Velocity { 
+	color: green;
+	border-style: solid;
+	border-width: 0em 0em 0.25em 0em;
+	border-color: black;
+}
+
+.BatteryCurrent { 
+	color: green;
+}
+
+.BatteryTemperature { 
+	color: green;
+}
+
+.BatteryVoltage { 
+	color: green;
+	border-style: solid;
+	border-width: 0em 0em 0.25em 0em;
+	border-color: black;
+}
+
+.BrP1 { 
+	color: green;
+}
+
+.BrP2 { 
+	color: green;
+}
+
+.BrP3 { 
+	color: green;
+}
+
+.PrP1 { 
+	color: green;
+}
+
+.PrP2 { 
+	color: green;
+	border-style: solid;
+	border-width: 0em 0em 0.25em 0em;
+	border-color: black;
+}
+
+.PodPressure { 
+	color: green;
+}
+
+.PodTemperature { 
+	color: green;
+}
+

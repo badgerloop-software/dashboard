@@ -4,15 +4,14 @@
 	<div flex="50" id="console-container">
 		<h1>STM32 Nucleo 144 Serial Console</h1>
 		<p id="console" ng-bind-html="output" md-whiteframe="9"></p>
-		<md-content>
+		<md-content id="command-input" md-whiteframe="9">
 			<form ng-keyup="$event.keyCode == 13 && sendCommand()">
 				<md-input-container>
 					<label>Command Text</label>
 					<input ng-model="command">
 				</md-input-container>
-				<md-button class="md-raised" ng-click="sendCommand()">Send</md-button>
-				<md-button class="md-raised" ng-click="resetData()">Clear</md-button>
-				<md-button class="md-raised" ng-click="getData()">Refresh</md-button>
+				<md-button class="md-raised" style="display:none" ng-click="sendCommand()">Send</md-button>
+				<md-button class="md-raised"ng-click="resetData()">Clear</md-button>
 			</form>
 		</md-content>
 	</div>
@@ -20,19 +19,27 @@
 	<!-- Data Visualization -->
 	<div flex="50" id="telemetry-container" layout="column">
 		<h1>Microcontroller Data</h1>
-		<div layout="row">
-			<div flex="50">
-				<div ng-repeat="field in fields">
-					<span class="{{field.name}}">{{field.name}}:</span>
+		<div id="telem-table" layout="row" md-whiteframe="9">
+			<div flex="33" class="telem-column-alt">
+				<div class="telem-item" ng-repeat="field in fields">
+					<div class="{{field.name}}">{{field.name}}:</div>
 				</div>
 			</div>
-			<div flex="50">
-				<div ng-repeat="field in fields">
-					<span class="{{field.name}}">{{data[field.name]}} {{field.unit}}</span>
+			<div flex="33" class="telem-column">
+				<div class="telem-centered" ng-repeat="field in fields">
+					<div class="{{field.name}}">{{data[field.name]}} {{field.unit}}</div>
+				</div>
+			</div>
+			<div flex="33" class="telem-column">
+				<div class="telem-centered" ng-repeat="field in fields">
+					<div class="{{field.name}}">{{field.status}}</div>
 				</div>
 			</div>
 		</div>
-		<md-button class="md-raised" ng-click="queryDB()">Get Data</md-button>
+		<p id="dash-console" ng-bind-html="dash_output" md-whiteframe="9"></p>
+		<div>
+			<md-button class="md-raised" ng-click="dashClear()">Clear</md-button>
+		</div>
 	</div>
 
 </div>
