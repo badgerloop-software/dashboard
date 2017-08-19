@@ -20,7 +20,9 @@ func CheckError(err error) {
 	}
 }
 
-const queryString string = "INSERT INTO Data (team_id, status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3) VALUES (:team_id, :status, :acceleration, :position, :velocity, :battery_voltage, :battery_current, :battery_temperature, :pod_temperature, :stripe_count, :pod_pressure, :switch_states, :pr_p1, :pr_p2, :br_p1, :br_p2, :br_p3)";
+const fakeData bool = true
+
+const queryString string = "INSERT INTO Data (team_id, status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3) VALUES (:team_id, :status, :acceleration, :position, :velocity, :battery_voltage, :battery_current, :battery_temperature, :pod_temperature, :stripe_count, :pod_pressure, :switch_states, :pr_p1, :pr_p2, :br_p1, :br_p2, :br_p3)"
 
 /*****************************************************************************/
 /*                     Microcontroller-related Networking                    */
@@ -118,6 +120,24 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	w.Write(myTestData)
 }
 
+func fakeDataHandler(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+	testData := []models.Data{}
+
+	// TODO: populate testData
+
+	myTestData, err := json.Marshal(testData)
+	CheckError(err)
+	// why would we need to Marshal and then Unmarshal?
+	err = json.Unmarshal(myTestData,&testData)
+	CheckError(err)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Write(myTestData)
+}
+
 /*
  * Microcontroller Command-Forwarding API
  * Purpose: run commands on microcontroller remotely
@@ -192,7 +212,11 @@ func main() {
 	go UDPServer()
 
 	/* Serve on port 2000 */
-	http.HandleFunc("/", handler)
+	if fakeData {
+		http.HandleFunc("/", fakeDataHandler)
+	} else {
+		http.HandleFunc("/", handler)
+	}
 	http.HandleFunc("/message", UDPForwardingHandler)
 	http.HandleFunc("/buffer", bufferRequestHandler)
 	log.Fatal(http.ListenAndServe(":2000", nil))
