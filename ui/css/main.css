@@ -116,3 +116,21 @@ h1 {
 /*****************************************************************************/
 /*****************************************************************************/
 
+
+/*****************************************************************************/
+/*                          md-tab color override                            */
+/*****************************************************************************/
+md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
+  color: #fff !important;
+}
+
+md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active, md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active md-icon, md-tabs.md-default-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused, md-tabs.md-default-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused md-icon {
+  color: #fff !important;
+}
+
+md-tabs .md-tab[disabled], md-tabs .md-tab[disabled] md-icon {
+  color: #fff !important;
+}
+/*****************************************************************************/
+/*****************************************************************************/
+
