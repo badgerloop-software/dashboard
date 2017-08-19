@@ -58,13 +58,14 @@ angular.module('controllers')
 	/*************************************************************************/
 	/*                        Data Retrieve API Call                         */
 	/*************************************************************************/
+	/* TODO: refactor so that we get only one entry at a time (the latest one) */
 	$scope.queryDB = function() {
 		$http({ method: 'GET', url: 'http://' + dashboard_ip + ':2000' })
 		.then(function(response) {
 
 			if (response.data.length == 0) return;
 
-			/* Check data */
+			/* Check state changes */
 			var curr_status = response.data[0].Status;
 			var prev_status = response.data[0].Status;
 			var curr_switches = response.data[0].SwitchStates;
@@ -89,6 +90,7 @@ angular.module('controllers')
 
 			// TODO: Pick Values for "bad values" and modify CSS classes based on
 			//       newly calculated values
+			//       all left to do is implement algorithm
 			if (curr_status == 0) changeClassColor("Status", "red");
 			else if (curr_status == 5) changeClassColor("Status", "blue");
 			else changeClassColor("Status", "green");
