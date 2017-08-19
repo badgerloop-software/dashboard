@@ -1,12 +1,3 @@
-function messageSuccessCallback(response) {
-	console.log("success");
-}
-
-function messageErrorCallback(response) {
-	console.log("error");
-	console.log(response);
-}
-
 function statusToString(status) {
 	switch (status) {
 		case 0: return "FAULT";

@@ -1,9 +1,9 @@
 var fields = [
-	{ name: "Status", unit: "state", status: "GOOD", critical: true,
+	{ name: "Status", unit: "", status: "GOOD", critical: true,
 		max: 5, min: 1}, /* let 0 (fault) trigger color change */
 	{ name: "Stopd", unit: "cm", status: "GOOD", critical: false,
 		max: 125000, min: 0},
-	{ name: "StripeCount", unit: " counts", status: "GOOD", critical: false,
+	{ name: "StripeCount", unit: "", status: "GOOD", critical: false,
 		max: 53, min: 0},
 	{ name: "Position", unit: "cm", status: "GOOD", critical: false,
 		max: 125000, min: 0},
@@ -30,14 +30,9 @@ var fields = [
 	{ name: "PodPressure", unit: "PSI", status: "GOOD", critical: false,
 		max: 15, min: 0},
 	{ name: "PodTemperature", unit: "C", status: "GOOD", critical: false,
-		max: 300, min: 200}
-];
-
-var math_fields = [
-	"Acceleration", "Velocity",
-	"BatteryCurrent", "BatteryTemperature", "BatteryVoltage",
-	"BrP1", "BrP2", "BrP3", "PrP1", "PrP2",
-	"PodPressure", "PodTemperature"
+		max: 300, min: 200},
+	{ name: "SwitchStates", unit: " ", status: "GOOD", critical: false,
+		max: 255, min: 0}
 ];
 
 //var dashboard_ip = "192.168.0.104";

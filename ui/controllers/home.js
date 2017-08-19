@@ -6,6 +6,8 @@ angular.module('controllers')
 	$scope.output = "";
 	$scope.data = {};
 	$scope.dash_output = "";
+	$scope.data_error = "";
+	$scope.mcu_error = "";
 
 	// Dashboard Log
 	$scope.dashClear = function() { $scope.dash_output = ""; };
@@ -25,7 +27,11 @@ angular.module('controllers')
 				+ encodeURIComponent($scope.command)
 		}).then(function(response) {
 			$scope.command = "";
-		}, messageErrorCallback);
+			document.getElementById("mcu-error-msg").style.display = "none";
+		}, function(response) {
+			$scope.mcu_error = "Couldn't send command!";
+			document.getElementById("mcu-error-msg").style.display = "block";
+		});
 	};
 	/*************************************************************************/
 
@@ -39,7 +45,11 @@ angular.module('controllers')
 		.then(function(response) {
 			$scope.output = response.data.replace(/(?:\r\n|\r|\n)/g, '<br />');
 			consoleElem.scrollTop = consoleElem.scrollHeight;
-		}, messageErrorCallback);
+			document.getElementById("mcu-error-msg").style.display = "none";
+		}, function(response) {
+			$scope.mcu_error = "Couldn't get buffer!";
+			document.getElementById("mcu-error-msg").style.display = "block";
+		});
 	};
 	/*************************************************************************/
 
@@ -49,7 +59,12 @@ angular.module('controllers')
 	/*************************************************************************/
 	$scope.resetData = function() {
 		$http({ method: 'GET', url: 'http://' + dashboard_ip + ':2000/buffer?reset' })
-		.then(messageSuccessCallback, messageErrorCallback);
+		.then(function(response) {
+			document.getElementById("mcu-error-msg").style.display = "none";
+		}, function(response) {
+			$scope.mcu_error = "Couldn't reset buffer!";
+			document.getElementById("mcu-error-msg").style.display = "block";
+		});
 		$scope.output = "";
 	};
 	/*************************************************************************/
@@ -63,45 +78,35 @@ angular.module('controllers')
 		$http({ method: 'GET', url: 'http://' + dashboard_ip + ':2000' })
 		.then(function(response) {
 
-			if (response.data.length == 0) return;
+			document.getElementById("data-error-msg").style.display = "none";
 
-			/* Check state changes */
-			var curr_status = response.data[0].Status;
-			var prev_status = response.data[0].Status;
-			var curr_switches = response.data[0].SwitchStates;
-			var prev_switches = response.data[0].SwitchStates;
-			for (var i = 0; i < response.data.length; i++) {
-				curr_status = response.data[i].Status;
-				curr_switches = response.data[i].SwitchStates;
-				if (curr_status !== prev_status)
-					$scope.dashLog('Status change! '
-						+ statusToString(prev_status) + ' -> ' + statusToString(curr_status));
-				if (curr_switches !== prev_switches)
-					$scope.dashLog("Switches change! " +
-						prev_switches + " -> " + curr_switches);
-				prev_status = curr_status;
-				prev_switches = curr_switches;
+			/* Check state change */
+			if (statusToString(response.data.Status) !== $scope.data["Status"])
+				$scope.dashLog('Status change! '
+					+ $scope.data["Status"] +
+					' -> ' + statusToString(response.data.Status));
+			/* Check limit switch change */
+			if (response.data.SwitchStates !== $scope.data["SwitchStates"])
+				$scope.dashLog("Switches change! " +
+					$scope.data["SwitchStates"] +
+					" -> " + response.data.SwitchStates);
+
+			/* Update Fields */
+			for (var i = 0; i < fields.length; i++) {
+				$scope.data[fields[i].name] = response.data[fields[i].name];
+				if (response.data[fields[i].name] < fields[i].min ||
+					response.data[fields[i].name] > fields[i].max)
+					changeClassColor(fields[i].name, 
+						(fields[i].critical) ? "red" : "orange");
+				else changeClassColor(fields[i].name, "green");
 			}
 
-			/* Sum Math Fields */
-			for (var i = 0; i < math_fields.length; i++) {
-				$scope.data[math_fields[i]] = response.data.sum(math_fields[i])/response.data.length;
-			}
+			$scope.data["Status"] = statusToString($scope.data["Status"]);
 
-			// TODO: Pick Values for "bad values" and modify CSS classes based on
-			//       newly calculated values
-			//       all left to do is implement algorithm
-			if (curr_status == 0) changeClassColor("Status", "red");
-			else if (curr_status == 5) changeClassColor("Status", "blue");
-			else changeClassColor("Status", "green");
-
-			/* Always grab latest */
-			$scope.data.Status = statusToString(response.data[response.data.length - 1].Status);
-			$scope.data.StripeCount = response.data[response.data.length - 1].StripeCount;
-			$scope.data.SwitchStates = response.data[response.data.length - 1].SwitchStates;
-			$scope.data.Position = $scope.data.StripeCount * 100;
-
-		}, messageErrorCallback);
+		}, function(response) {
+			$scope.data_error = "Couldn't get data!";
+			document.getElementById("data-error-msg").style.display = "block";
+		});
 	};
 	/*************************************************************************/
 

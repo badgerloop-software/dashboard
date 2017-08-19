@@ -1,8 +1,9 @@
 <div flex="grow" layout="row" ng-cloak>
 
 	<!-- Console -->
-	<div flex="50" id="console-container" class="pad">
+	<div flex="50" class="pad" layout="column">
 		<h1>STM32 Nucleo 144 Serial Console</h1>
+		<div id="mcu-error-msg" class="error-msg" md-whiteframe="3">{{mcu_error}}</div>
 		<p id="console" class="black-back" ng-bind-html="output" md-whiteframe="9"></p>
 		<md-content id="command-input" class="white-back" md-whiteframe="9">
 			<form ng-keyup="$event.keyCode == 13 && sendCommand()">
@@ -17,8 +18,9 @@
 	</div>
 
 	<!-- Data Visualization -->
-	<div flex="50" id="telemetry-container" class="pad" layout="column">
+	<div flex="50" id="telemetry-container" layout="column">
 		<h1>Microcontroller Data</h1>
+		<div id="data-error-msg" class="error-msg" md-whiteframe="3">{{data_error}}</div>
 		<md-tabs md-dynamic-height md-stretch-tabs="always" md-center-tabs="true" md-align-tabs="bottom">
 			<md-tab label="Text">
 				<div id="telem-table" class="white-back pad" layout="row" md-whiteframe="9">

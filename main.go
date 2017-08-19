@@ -8,11 +8,8 @@ import (
 	"encoding/json"
 	"strings"
 	"bytes"
-	"time"
 	"github.com/badgerloop-software/dashboard/database"
-	//api "github.com/badgerloop-software/dashboard/services"
 	models "github.com/badgerloop-software/dashboard/models"
-	//restful "github.com/emicklei/go-restful"
 )
 
 func CheckError(err error) {
@@ -21,9 +18,7 @@ func CheckError(err error) {
 	}
 }
 
-const fakeData bool = true
 const teamID uint8 = 3
-var fakeDataID int = 0
 
 const queryString string = "INSERT INTO Data (team_id, status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3) VALUES (:team_id, :status, :acceleration, :position, :velocity, :battery_voltage, :battery_current, :battery_temperature, :pod_temperature, :stripe_count, :pod_pressure, :switch_states, :pr_p1, :pr_p2, :br_p1, :br_p2, :br_p3)"
 
@@ -114,49 +109,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	CheckError(err)
 	myTestData, err := json.Marshal(testData[0])
 	CheckError(err)
-	// why would we need to Marshal and then Unmarshal?
-	err = json.Unmarshal(myTestData,&testData[0])
-	CheckError(err)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Write(myTestData)
-}
-
-func fakeDataHandler(w http.ResponseWriter, r *http.Request) {
-
-	var err error
-
-	/* TODO: vary data */
-
-	testData := models.Data{}
-	testData.ID = fakeDataID
-	fakeDataID++
-	testData.Created = time.Now().Format(time.UnixDate)
-	testData.TeamID = teamID
-	testData.Status = 1 // IDLE
-	testData.Acceleration = 0
-	testData.Position = 0
-	testData.Velocity = 0
-	testData.StripeCount = 0
-	testData.Stopd = 10000
-	testData.BatteryVoltage = 13000
-	testData.BatteryCurrent = 7000
-	testData.BatteryTemperature = 250
-	testData.PodTemperature = 250
-	testData.PodPressure = 14
-	testData.SwitchStates = 0
-	testData.PrP1 = 3000
-	testData.PrP2 = 3000
-	testData.BrP1 = 300
-	testData.BrP2 = 300
-	testData.BrP3 = 0
-
-	myTestData, err := json.Marshal(testData)
-	CheckError(err)
-	// why would we need to Marshal and then Unmarshal?
-	err = json.Unmarshal(myTestData,&testData)
-	CheckError(err)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -237,11 +189,7 @@ func main() {
 	go UDPServer()
 
 	/* Serve on port 2000 */
-	if fakeData {
-		http.HandleFunc("/", fakeDataHandler)
-	} else {
-		http.HandleFunc("/", handler)
-	}
+	http.HandleFunc("/", handler)
 	http.HandleFunc("/message", UDPForwardingHandler)
 	http.HandleFunc("/buffer", bufferRequestHandler)
 	log.Fatal(http.ListenAndServe(":2000", nil))
