@@ -95,10 +95,14 @@ angular.module('controllers')
 			for (var i = 0; i < fields.length; i++) {
 				$scope.data[fields[i].name] = response.data[fields[i].name];
 				if (response.data[fields[i].name] < fields[i].min ||
-					response.data[fields[i].name] > fields[i].max)
+					response.data[fields[i].name] > fields[i].max) {
 					changeClassColor(fields[i].name, 
 						(fields[i].critical) ? "red" : "orange");
-				else changeClassColor(fields[i].name, "green");
+					fields[i].status = (fields[i].critical) ? "ERROR" : "WARN";
+				} else {
+					changeClassColor(fields[i].name, "green");
+					fields[i].status = "GOOD";
+				}
 			}
 
 			$scope.data["Status"] = statusToString($scope.data["Status"]);
