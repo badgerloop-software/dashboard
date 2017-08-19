@@ -31,6 +31,7 @@ type Data struct {
 	BrP1				uint16			`db:"br_p1"`
 	BrP2				uint16			`db:"br_p2"`
 	BrP3				uint16			`db:"br_p3"`
+	Stopd				int32			`db:"stopd"`
 }
 
 func PrintSpaceXInner(dat Data) {
@@ -103,6 +104,7 @@ func PrintDashboard(dat Data) {
 	fmt.Printf("Braking Pr. 1: %5d\n", dat.BrP1)
 	fmt.Printf("Braking Pr. 2: %5d\n", dat.BrP2)
 	fmt.Printf("Braking Pr. 3: %5d\n", dat.BrP3)
+	fmt.Printf("Stop Dist.:    %5d\n", dat.Stopd)
 	fmt.Println("=========================\n")
 }
 
@@ -206,6 +208,12 @@ func ParseDashboardPacket(buf []byte) (Data, error) {
 	ret.BrP3 |= uint16(buf[45])
 
 	ret.SwitchStates = buf[46]
+
+	ret.Stopd = 0 /* int32 */
+	ret.Stopd |= int32(buf[47]) << 24
+	ret.Stopd |= int32(buf[48]) << 16
+	ret.Stopd |= int32(buf[49]) << 8
+	ret.Stopd |= int32(buf[50])
 
 	return ret, nil
 }

@@ -31,7 +31,8 @@ CREATE TABLE `Data` (
 	`pr_p2` INTEGER(5) NOT NULL,				# UINT16 - PSI, TODO: which is this?
 	`br_p1` INTEGER(3) NOT NULL,				# UINT16 - PSI, TODO: which is this?
 	`br_p2` INTEGER(3) NOT NULL,				# UINT16 - PSI, TODO: which is this?
-	`br_p3` INTEGER(3) NOT NULL					# UINT16 - PSI, TODO: which is this?
+	`br_p3` INTEGER(3) NOT NULL,				# UINT16 - PSI, TODO: which is this?
+	`stopd` INTEGER(10) NOT NULL				# INT32  - Distance in cm
 );
 
 # Update table
