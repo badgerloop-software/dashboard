@@ -11,7 +11,7 @@ CREATE TABLE `Data` (
 	`created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 
 	# Required SpaceX arguments
-	`team_id` INTEGER(3) DEFAULT 55,		# UINT8 - Team Identifier (TODO)
+	`team_id` INTEGER(3) DEFAULT 3,		# UINT8 - Team Identifier (TODO)
 	`status` INTEGER(3) NOT NULL,			# UINT8 - Pod Status *
 	`acceleration` INTEGER(10) NOT NULL,	# INT32 - Acceleration in cm / s^2
 	`position` INTEGER(10) NOT NULL,		# INT32 - Position in cm
@@ -53,4 +53,6 @@ CREATE TABLE `Update` (
 # 3: Pushing - Any state where the pod detects it is being pushed
 # 4: Coast - Any state when the pod detects it has separated from the pusher vehicle
 # 5: Braking - Any state when the pod is applying its brakes
+
+insert into Data (status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3, stopd) values (1, 0, 0, 0, 14000, 6000, 250, 250, 0, 15, 0, 3300, 3300, 275, 275, 0, 0);
 
