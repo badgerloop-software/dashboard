@@ -172,7 +172,7 @@ func ParseSpaceXPacket(buf []byte) (Data, error) {
 func ParseDashboardPacket(buf []byte) (Data, error) {
 	ret := Data{}
 
-	if len(buf) != 47 {
+	if len(buf) != 51 {
 		return ret, errors.New("Dashboard Packet: incorrect slice length")
 	}
 

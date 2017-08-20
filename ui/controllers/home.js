@@ -114,8 +114,8 @@ angular.module('controllers')
 	};
 	/*************************************************************************/
 
-	setInterval($scope.getData, 1000);
-	setInterval($scope.queryDB, 2000);
+	setInterval($scope.getData, 500);
+	setInterval($scope.queryDB, 500);
 
 });
 

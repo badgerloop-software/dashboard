@@ -35,6 +35,6 @@ var fields = [
 		max: 255, min: 0}
 ];
 
-//var dashboard_ip = "192.168.0.104";
-var dashboard_ip = "localhost";
+var dashboard_ip = "192.168.0.112";
+//var dashboard_ip = "localhost";
 

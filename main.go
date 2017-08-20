@@ -20,7 +20,7 @@ func CheckError(err error) {
 
 const teamID uint8 = 3
 
-const queryString string = "INSERT INTO Data (team_id, status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3) VALUES (:team_id, :status, :acceleration, :position, :velocity, :battery_voltage, :battery_current, :battery_temperature, :pod_temperature, :stripe_count, :pod_pressure, :switch_states, :pr_p1, :pr_p2, :br_p1, :br_p2, :br_p3)"
+const queryString string = "INSERT INTO Data (team_id, status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3, stopd) VALUES (:team_id, :status, :acceleration, :position, :velocity, :battery_voltage, :battery_current, :battery_temperature, :pod_temperature, :stripe_count, :pod_pressure, :switch_states, :pr_p1, :pr_p2, :br_p1, :br_p2, :br_p3, :stopd)"
 
 /*****************************************************************************/
 /*                     Microcontroller-related Networking                    */
@@ -61,7 +61,7 @@ func UDPServer() {
 		if n > 5 && buf[0] == 'M' && buf[1] == 'S' && buf[2] == 'G' {
 			/* respond to microcontroller querying for dashboard */
 			if strings.Contains(string(buf[0:n]), "dashboard?") {
-				_, err = packet_conn.WriteToUDP([]byte("new phone who dis"), outAddr)
+				_, err = packet_conn.WriteToUDP(append([]byte("new phone who dis"), 0), outAddr)
 			} else {
 				fmt.Print(string(buf[5:n]))
 				mcuBuffer.Write(buf[5:n])
@@ -73,8 +73,8 @@ func UDPServer() {
 				models.PrintSpaceX(dat)
 			}
 		/* Dashboard Packet */
-		} else if n == 47 {
-			dat, err = models.ParseDashboardPacket(buf[:47])
+		} else if n == 51 {
+			dat, err = models.ParseDashboardPacket(buf[:51])
 			if err == nil {
 				models.PrintDashboard(dat)
 				sendToDB(&dat)
