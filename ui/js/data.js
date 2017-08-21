@@ -27,10 +27,10 @@ var fields = [
 		max: 5000, min: 2000},
 	{ name: "PrP2", unit: "PSI", status: "GOOD", critical: false,
 		max: 5000, min: 2000},
-	{ name: "PodPressure", unit: "PSI", status: "GOOD", critical: false,
-		max: 15, min: 0},
-	{ name: "PodTemperature", unit: "C", status: "GOOD", critical: false,
-		max: 300, min: 200},
+	{ name: "PodPressure", unit: "mPSI", status: "GOOD", critical: false,
+		max: 15000, min: 0},
+	{ name: "PodTemperature", unit: "1/10 C", status: "GOOD", critical: false,
+		max: 350, min: 200},
 	{ name: "SwitchStates", unit: " ", status: "GOOD", critical: false,
 		max: 255, min: 0}
 ];
