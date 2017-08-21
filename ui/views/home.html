@@ -22,7 +22,7 @@
 		<h1>Microcontroller Data</h1>
 		<div id="data-error-msg" class="error-msg" md-whiteframe="3">{{data_error}}</div>
 		<md-tabs md-dynamic-height md-stretch-tabs="always" md-center-tabs="true" md-align-tabs="bottom">
-			<md-tab label="Text">
+			<md-tab label="Full">
 				<div id="telem-table" class="white-back pad" layout="row" md-whiteframe="9">
 					<div flex="33" class="telem-column-alt">
 						<div class="telem-item" ng-repeat="field in fields">
@@ -45,9 +45,13 @@
 					<md-button class="md-raised" ng-click="dashClear()">Clear</md-button>
 				</div>
 			</md-tab>
-			<md-tab label="Graphical" id="graphic-tab">
+			<md-tab label="I/O" id="graphic-tab">
 				<md-content id="graphic-inner" class="pad" md-whiteframe="9">
-					Test
+					PLIM1: {{PLIM1}}<br>
+					PLIM2: {{PLIM2}}<br>
+					BLIM1: {{BLIM1}}<br>
+					BLIM2: {{BLIM2}}<br>
+					DLIM:&nbsp;&nbsp;{{DLIM}}
 				</md-content>
 			</md-tab>
 		</md-tabs>

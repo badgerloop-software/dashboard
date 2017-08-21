@@ -29,7 +29,7 @@ var fields = [
 		max: 5000, min: 2000},
 	{ name: "PodPressure", unit: "mPSI", status: "GOOD", critical: false,
 		max: 15000, min: 0},
-	{ name: "PodTemperature", unit: "1/10 C", status: "GOOD", critical: false,
+	{ name: "PodTemperature", unit: "C/10", status: "GOOD", critical: false,
 		max: 350, min: 200},
 	{ name: "SwitchStates", unit: " ", status: "GOOD", critical: false,
 		max: 255, min: 0}
@@ -37,4 +37,10 @@ var fields = [
 
 var dashboard_ip = "192.168.0.112";
 //var dashboard_ip = "localhost";
+
+var PLIM1_VAL = 1;
+var PLIM2_VAL = 2;
+var BLIM1_VAL = 4;
+var BLIM2_VAL = 8;
+var DLIM_VAL = 16;
 
