@@ -11,6 +11,10 @@ var fields = [
 		max: 1962, min: -1962},
 	{ name: "Velocity", unit: "cm/s", status: "GOOD", critical: false,
 		max: 10000, min: 0},
+	{ name: "BatteryPerc", unit: "%", status: "GOOD", critical: false,
+		max: 100, min: 25},
+	{ name: "BatteryRemaining", unit: "s", status: "GOOD", critical: false,
+		max: 6000, min: 0},
 	{ name: "BatteryCurrent", unit: "mA", status: "GOOD", critical: false,
 		max: 20000, min: 3000},
 	{ name: "BatteryTemperature", unit: "C", status: "GOOD", critical: false,
@@ -32,14 +36,10 @@ var fields = [
 	{ name: "PodTemperature", unit: "C/10", status: "GOOD", critical: false,
 		max: 350, min: 200},
 	{ name: "SwitchStates", unit: " ", status: "GOOD", critical: false,
-		max: 255, min: 0},
-	{ name: "BatteryPerc", unit: "%", status: "GOOD", critical: false,
-		max: 100, min: 25},
-	{ name: "BatteryRemaining", unit: "s", status: "GOOD", critical: false,
-		max: 6000, min: 0}
+		max: 255, min: 0}
 ];
 
-var dashboard_ip = "192.168.1.169";
+var dashboard_ip = "192.168.0.112";
 //var dashboard_ip = "localhost";
 
 var PLIM1_VAL = 1;
