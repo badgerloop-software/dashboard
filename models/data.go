@@ -32,7 +32,12 @@ type Data struct {
 	BrP2				uint16			`db:"br_p2"`
 	BrP3				uint16			`db:"br_p3"`
 	Stopd				int32			`db:"stopd"`
+	BatteryPerc			uint32			`db:"batt_perc"`
+	BatteryRemaining	uint32			`db:"batt_rem"`
 }
+
+const SPACEX_SIZ int = 34
+const DASH_SIZ int = 59
 
 func PrintSpaceXInner(dat Data) {
 	fmt.Println("--- MANDATORY ARGS ---")
@@ -111,7 +116,7 @@ func PrintDashboard(dat Data) {
 func ParseSpaceXPacket(buf []byte) (Data, error) {
 	ret := Data{}
 
-	if len(buf) != 34 {
+	if len(buf) != SPACEX_SIZ {
 		return ret, errors.New("SpaceX Packet: incorrect slice length")
 	}
 
@@ -172,7 +177,7 @@ func ParseSpaceXPacket(buf []byte) (Data, error) {
 func ParseDashboardPacket(buf []byte) (Data, error) {
 	ret := Data{}
 
-	if len(buf) != 51 {
+	if len(buf) != DASH_SIZ {
 		return ret, errors.New("Dashboard Packet: incorrect slice length")
 	}
 

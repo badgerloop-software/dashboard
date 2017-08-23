@@ -20,7 +20,7 @@ func CheckError(err error) {
 
 const teamID uint8 = 3
 
-const queryString string = "INSERT INTO Data (team_id, status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3, stopd) VALUES (:team_id, :status, :acceleration, :position, :velocity, :battery_voltage, :battery_current, :battery_temperature, :pod_temperature, :stripe_count, :pod_pressure, :switch_states, :pr_p1, :pr_p2, :br_p1, :br_p2, :br_p3, :stopd)"
+const queryString string = "INSERT INTO Data (team_id, status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3, stopd, batt_perc, batt_rem) VALUES (:team_id, :status, :acceleration, :position, :velocity, :battery_voltage, :battery_current, :battery_temperature, :pod_temperature, :stripe_count, :pod_pressure, :switch_states, :pr_p1, :pr_p2, :br_p1, :br_p2, :br_p3, :stopd, :batt_perc, :batt_rem)"
 
 /*****************************************************************************/
 /*                     Microcontroller-related Networking                    */
@@ -67,13 +67,13 @@ func UDPServer() {
 				mcuBuffer.Write(buf[5:n])
 			}
 		/* SpaceX Packet */
-		} else if n == 34 {
+		} else if n == models.SPACEX_SIZ {
 			dat, err = models.ParseSpaceXPacket(buf[:34])
 			if err == nil {
 				models.PrintSpaceX(dat)
 			}
 		/* Dashboard Packet */
-		} else if n == 51 {
+		} else if n == models.DASH_SIZ {
 			dat, err = models.ParseDashboardPacket(buf[:51])
 			if err == nil {
 				models.PrintDashboard(dat)

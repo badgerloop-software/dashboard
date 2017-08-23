@@ -32,7 +32,9 @@ CREATE TABLE `Data` (
 	`br_p1` INTEGER(3) NOT NULL,				# UINT16 - PSI, TODO: which is this?
 	`br_p2` INTEGER(3) NOT NULL,				# UINT16 - PSI, TODO: which is this?
 	`br_p3` INTEGER(3) NOT NULL,				# UINT16 - PSI, TODO: which is this?
-	`stopd` INTEGER(10) NOT NULL				# INT32  - Distance in cm
+	`stopd` INTEGER(10) NOT NULL,				# INT32  - Distance in cm
+	`batt_perc` INTEGER(10) NOT NULL,			# UINT32  - Battery percentage
+	`batt_rem` INTEGER(10) NOT NULL				# UINT32  - Remaining charge in seconds
 );
 
 # Update table
@@ -54,5 +56,5 @@ CREATE TABLE `Update` (
 # 4: Coast - Any state when the pod detects it has separated from the pusher vehicle
 # 5: Braking - Any state when the pod is applying its brakes
 
-insert into Data (status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3, stopd) values (1, 0, 0, 0, 14000, 6000, 250, 250, 0, 15, 0, 3300, 3300, 275, 275, 0, 0);
+insert into Data (status, acceleration, position, velocity, battery_voltage, battery_current, battery_temperature, pod_temperature, stripe_count, pod_pressure, switch_states, pr_p1, pr_p2, br_p1, br_p2, br_p3, stopd, batt_perc, batt_rem) values (1, 0, 0, 0, 14000, 6000, 250, 250, 0, 15, 0, 3300, 3300, 275, 275, 0, 0, 100, 6000);
 
