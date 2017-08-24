@@ -9,12 +9,6 @@ angular.module('controllers')
 	$scope.data_error = "";
 	$scope.mcu_error = "";
 
-	$scope.PLIM1 = false;
-	$scope.PLIM2 = false;
-	$scope.BLIM1 = false;
-	$scope.BLIM2 = false;
-	$scope.DLIM = false;
-
 	// Dashboard Log
 	$scope.dashClear = function() { $scope.dash_output = ""; };
 	$scope.dashLog = function(message) {
@@ -111,11 +105,12 @@ angular.module('controllers')
 				}
 			}
 
-			$scope.PLIM1 = (response.data.SwitchStates & PLIM1_VAL == PLIM1_VAL) ? true : false;
-			$scope.PLIM2 = (response.data.SwitchStates & PLIM2_VAL == PLIM2_VAL) ? true : false;
-			$scope.BLIM1 = (response.data.SwitchStates & BLIM1_VAL == BLIM1_VAL) ? true : false;
-			$scope.BLIM2 = (response.data.SwitchStates & BLIM2_VAL == BLIM2_VAL) ? true : false;
-			$scope.DLIM = (response.data.SwitchStates & DLIM_VAL == DLIM_VAL) ? true : false;
+			/* */
+			$scope.PLIM1 = ((response.data.SwitchStates & PLIM1_VAL) > 0) ? "open" : "depressed";
+			$scope.PLIM2 = ((response.data.SwitchStates & PLIM2_VAL) > 0) ? "open" : "depressed";
+			$scope.BLIM1 = ((response.data.SwitchStates & BLIM1_VAL) > 0) ? "open" : "depressed";
+			$scope.BLIM2 = ((response.data.SwitchStates & BLIM2_VAL) > 0) ? "open" : "depressed";
+			$scope.DLIM = ((response.data.SwitchStates & DLIM_VAL) > 0) ? "open" : "depressed";
 
 			$scope.data["Status"] = statusToString($scope.data["Status"]);
 
