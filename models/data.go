@@ -110,6 +110,8 @@ func PrintDashboard(dat Data) {
 	fmt.Printf("Braking Pr. 2: %5d\n", dat.BrP2)
 	fmt.Printf("Braking Pr. 3: %5d\n", dat.BrP3)
 	fmt.Printf("Stop Dist.:    %5d\n", dat.Stopd)
+	fmt.Printf("Batt Perc.:    %5d\n", dat.BatteryPerc)
+	fmt.Printf("Batt Rem.:    %5d\n", dat.BatteryRemaining)
 	fmt.Println("=========================\n")
 }
 
@@ -219,6 +221,18 @@ func ParseDashboardPacket(buf []byte) (Data, error) {
 	ret.Stopd |= int32(buf[48]) << 16
 	ret.Stopd |= int32(buf[49]) << 8
 	ret.Stopd |= int32(buf[50])
+
+	ret.BatteryPerc = 0
+	ret.BatteryPerc |= uint32(buf[51]) << 24
+	ret.BatteryPerc |= uint32(buf[52]) << 16
+	ret.BatteryPerc |= uint32(buf[53]) << 8
+	ret.BatteryPerc |= uint32(buf[54])
+
+	ret.BatteryRemaining = 0
+	ret.BatteryRemaining |= uint32(buf[55]) << 24
+	ret.BatteryRemaining |= uint32(buf[56]) << 16
+	ret.BatteryRemaining |= uint32(buf[57]) << 8
+	ret.BatteryRemaining |= uint32(buf[58])
 
 	return ret, nil
 }
