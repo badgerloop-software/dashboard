@@ -105,12 +105,29 @@ angular.module('controllers')
 				}
 			}
 
-			/* */
+			/* Limit switches */
 			$scope.PLIM1 = ((response.data.SwitchStates & PLIM1_VAL) > 0) ? "open" : "depressed";
 			$scope.PLIM2 = ((response.data.SwitchStates & PLIM2_VAL) > 0) ? "open" : "depressed";
 			$scope.BLIM1 = ((response.data.SwitchStates & BLIM1_VAL) > 0) ? "open" : "depressed";
 			$scope.BLIM2 = ((response.data.SwitchStates & BLIM2_VAL) > 0) ? "open" : "depressed";
 			$scope.DLIM = ((response.data.SwitchStates & DLIM_VAL) > 0) ? "open" : "depressed";
+
+			/* Battery remaining */
+			if (response.data.BatteryRemaining > 432000) {
+				$scope.data["BatteryRemaining"] /= 86400;
+				fields[7].unit = "d";
+			} else if (response.data.BatteryRemaining > 14400) {
+				$scope.data["BatteryRemaining"] /= 3600;
+				fields[7].unit = "h";
+			} else if (response.data.BatteryRemaining > 300) {
+				$scope.data["BatteryRemaining"] /= 60;
+				fields[7].unit = "m";
+			} else fields[7].unit = "s";
+			$scope.data["BatteryRemaining"] = Math.floor($scope.data["BatteryRemaining"]);
+
+			/* temperature scaling */
+			$scope.data["BatteryTemperature"] /= 10;
+			$scope.data["PodTemperature"] /= 10;
 
 			$scope.data["Status"] = statusToString($scope.data["Status"]);
 

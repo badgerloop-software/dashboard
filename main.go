@@ -70,13 +70,13 @@ func UDPServer() {
 		} else if n == models.SPACEX_SIZ {
 			dat, err = models.ParseSpaceXPacket(buf[:34])
 			if err == nil {
-				models.PrintSpaceX(dat)
+				//models.PrintSpaceX(dat)
 			}
 		/* Dashboard Packet */
 		} else if n == models.DASH_SIZ {
 			dat, err = models.ParseDashboardPacket(buf[:models.DASH_SIZ])
 			if err == nil {
-				models.PrintDashboard(dat)
+				//models.PrintDashboard(dat)
 				sendToDB(&dat)
 			}
 		/* Malformed Packet*/
