@@ -74,7 +74,7 @@ func UDPServer() {
 			}
 		/* Dashboard Packet */
 		} else if n == models.DASH_SIZ {
-			dat, err = models.ParseDashboardPacket(buf[:51])
+			dat, err = models.ParseDashboardPacket(buf[:DASH_SIZ])
 			if err == nil {
 				models.PrintDashboard(dat)
 				sendToDB(&dat)
