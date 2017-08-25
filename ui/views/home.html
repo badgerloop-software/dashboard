@@ -26,7 +26,7 @@
 				<div id="telem-table" class="white-back pad" layout="row" md-whiteframe="9">
 					<div flex="33" class="telem-column-alt">
 						<div class="telem-item" ng-repeat="field in fields">
-							<div class="{{field.name}}">{{field.name}}:</div>
+							<div class="{{field.name}}">{{field.displayAs}}:</div>
 						</div>
 					</div>
 					<div flex="33" class="telem-column">
@@ -51,7 +51,40 @@
 					PLIM2: {{PLIM2}}<br>
 					BLIM1: {{BLIM1}}<br>
 					BLIM2: {{BLIM2}}<br>
-					DLIM:&nbsp;&nbsp;{{DLIM}}
+					DLIM:&nbsp;&nbsp;{{DLIM}}<br>
+					<hr>
+					<div style="text-align:center" class="pad">
+						<h3>State Change Overrides</h3>
+						<md-button class="md-raised" ng-click="sendStringCommand('badgerloop state fault')">FAULT</md-button>
+						<md-button class="md-raised" ng-click="sendStringCommand('badgerloop state idle')">IDLE</md-button>
+						<md-button class="md-raised" ng-click="sendStringCommand('badgerloop state ready')">READY</md-button>
+						<md-button class="md-raised" ng-click="sendStringCommand('badgerloop state pushing')">PUSHING</md-button>
+						<md-button class="md-raised" ng-click="sendStringCommand('badgerloop state coasting')">COASTING</md-button>
+						<md-button class="md-raised" ng-click="sendStringCommand('badgerloop state braking')">BRAKING</md-button>
+					</div>
+					<hr>
+					<div style="text-align:center" class="pad">
+						<h3>Actuation Overrides</h3>
+						<div>
+							<md-button class="md-raised" ng-click="sendStringCommand('badgerloop')">Prim. Brake On</md-button>
+							<md-button class="md-raised" ng-click="sendStringCommand('badgerloop')">Prim. Brake Off</md-button>
+						</div>
+						<div>
+							<md-button class="md-raised" ng-click="sendStringCommand('badgerloop')">Sec. Brake On</md-button>
+							<md-button class="md-raised" ng-click="sendStringCommand('badgerloop')">Sec. Brake Off</md-button>
+						</div>
+						<div>
+							<md-button class="md-raised" ng-click="sendStringCommand('badgerloop')">Prim. Brake Vent On</md-button>
+							<md-button class="md-raised" ng-click="sendStringCommand('badgerloop')">Prim. Brake Vent Off</md-button>
+						</div>
+						<div>
+							<md-button class="md-raised" ng-click="sendStringCommand('badgerloop')">Vent Prop. On</md-button>
+							<md-button class="md-raised" ng-click="sendStringCommand('badgerloop')">Vent Prop. Off</md-button>
+							<md-button class="md-raised" ng-disabled="true" ng-click="sendStringCommand('badgerloop')">Actuate Prop. On</md-button>
+							<md-button class="md-raised" ng-disabled="true" ng-click="sendStringCommand('badgerloop')">Actuate Prop. Off</md-button>
+						</div>
+					</div>
+					<hr>
 				</md-content>
 			</md-tab>
 		</md-tabs>

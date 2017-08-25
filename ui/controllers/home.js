@@ -33,6 +33,11 @@ angular.module('controllers')
 			document.getElementById("mcu-error-msg").style.display = "block";
 		});
 	};
+
+	$scope.sendStringCommand = function(message) {
+		$scope.command = message;
+		$scope.sendCommand();
+	};
 	/*************************************************************************/
 
 
@@ -97,7 +102,7 @@ angular.module('controllers')
 				if (response.data[fields[i].name] < fields[i].min ||
 					response.data[fields[i].name] > fields[i].max) {
 					changeClassColor(fields[i].name, 
-						(fields[i].critical) ? "red" : "orange");
+						(fields[i].critical) ? "red" : "blue");
 					fields[i].status = (fields[i].critical) ? "ERROR" : "WARN";
 				} else {
 					changeClassColor(fields[i].name, "green");
@@ -128,6 +133,10 @@ angular.module('controllers')
 			/* temperature scaling */
 			$scope.data["BatteryTemperature"] /= 10;
 			$scope.data["PodTemperature"] /= 10;
+			$scope.data["PodPressure"] /= 1000;
+			$scope.data["BatteryVoltage"] /= 1000;
+			$scope.data["BatteryCurrent"] /= 1000;
+			$scope.data["Velocity"] /= 10;
 
 			$scope.data["Status"] = statusToString($scope.data["Status"]);
 
@@ -138,8 +147,8 @@ angular.module('controllers')
 	};
 	/*************************************************************************/
 
-	setInterval($scope.getData, 500);
-	setInterval($scope.queryDB, 500);
+	setInterval($scope.getData, 250);
+	setInterval($scope.queryDB, 250);
 
 });
 
